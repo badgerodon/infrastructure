@@ -16,25 +16,6 @@ job "caddy" {
       service {
         port = "http"
       }
-    }
-
-    # Create an individual task (unit of work). This particular
-    # task utilizes a Docker container to front a web application.
-    task "frontend" {
-      # Specify the driver to be "docker". Nomad supports
-      # multiple drivers.
-      driver = "docker"
-
-      # Configuration is specific to each driver.
-      config {
-        image = "hashicorp/web-frontend"
-      }
-
-      service {
-        port = "http"
-      }
-
-
       resources {
         network {
           port "http" {
