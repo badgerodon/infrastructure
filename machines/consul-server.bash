@@ -3,7 +3,7 @@
 # In User Data do:
 
 # #!/bin/bash
-# export NOMAD_VERSION=0.8.5
+# export NOMAD_VERSION=0.5.6
 # export CONSUL_VERSION=0.8.5
 # curl https://raw.githubusercontent.com/badgerodon/infrastructure/master/machines/consul-server.bash | sudo -E /bin/bash
 
