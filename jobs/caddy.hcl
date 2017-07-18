@@ -1,5 +1,7 @@
 job "caddy" {
   type = "service"
+  
+  datacenters = ["us-central1"]
 
   update {
     stagger      = "30s"
