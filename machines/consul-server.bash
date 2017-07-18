@@ -27,7 +27,7 @@ Description=consul
 ExecStart=/usr/bin/consul agent -server \
   -data-dir="/tmp/consul" \
   -bootstrap-expect 3 \
-  -retry-join-gce-tag-value role:consul
+  -retry-join-gce-tag-value consul
 Restart=always
 [Install]
 WantedBy=multi-user.target
