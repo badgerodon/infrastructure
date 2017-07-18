@@ -14,7 +14,7 @@ fi
 
 apt-get install -y curl unzip
 
-CONSUL_NODES=$(gcloud compute instances list --format='value[separator=","](name,networkInterfaces[0].networkIP)' | grep consul-group | cut -d, -f2 | xargs echo | tr ' ' ',')
+CONSUL_IPS=$(gcloud compute instances list --format='value[separator=","](name,networkInterfaces[0].networkIP)' | grep consul-group | cut -d, -f2 | xargs echo)
 
 echo "[install] installing consul"
 cd /tmp
@@ -30,7 +30,7 @@ Description=consul
 ExecStart=/usr/bin/consul agent -server \
   -data-dir="/tmp/consul" \
   -bootstrap-expect 3 \
-  -retry-join=$CONSUL_NODES
+  $(echo $CONSUL_IPS | tr ' ' '\n' | xargs -I{} echo "-retry-join {}" | xargs echo)
 Restart=always
 [Install]
 WantedBy=multi-user.target
