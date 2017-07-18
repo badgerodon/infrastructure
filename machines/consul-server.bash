@@ -12,7 +12,7 @@ if [[ $EUID -ne 0 ]]; then
   exit 1
 fi
 
-apt-get install -y curl unzip
+apt-get install -y curl unzip docker
 
 CONSUL_IPS=$(gcloud compute instances list --format='value[separator=","](name,networkInterfaces[0].networkIP)' | grep consul-group | cut -d, -f2 | xargs echo)
 
