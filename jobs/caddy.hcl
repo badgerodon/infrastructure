@@ -1,6 +1,6 @@
 job "caddy" {
   type = "service"
-  
+
   datacenters = ["us-central1"]
 
   update {
@@ -14,6 +14,7 @@ job "caddy" {
       driver = "docker"
       config {
         image = "ecr.io/badgerodon-173120/caddy:1.0"
+        network_mode = "host"
       }
       service {
         port = "http"
@@ -21,7 +22,7 @@ job "caddy" {
       resources {
         network {
           port "http" {
-            static = 80  
+            static = 80
           }
         }
       }

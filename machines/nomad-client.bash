@@ -35,7 +35,7 @@ WantedBy=multi-user.target
 EOF
 
 echo "[install] starting consul"
-systemctl daemon-reload 
+systemctl daemon-reload
 systemctl enable consul
 systemctl start consul
 
@@ -74,6 +74,6 @@ WantedBy=multi-user.target
 EOF
 
 echo "[install] starting nomad"
-systemctl daemon-reload 
+systemctl daemon-reload
 systemctl enable nomad
 systemctl start nomad
