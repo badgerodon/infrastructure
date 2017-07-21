@@ -1,5 +1,5 @@
-job "caddy" {
-  type = "service"
+job "envoy" {
+  type = "system"
 
   datacenters = ["us-central1"]
 
@@ -8,12 +8,12 @@ job "caddy" {
     max_parallel = 1
   }
 
-  group "caddy" {
+  group "envoy" {
     count = 2
-    task "caddy" {
+    task "envoy" {
       driver = "docker"
       config {
-        image = "ecr.io/badgerodon-173120/caddy:1.0"
+        image = "lyft/envoy-alpine:latest"
         network_mode = "host"
       }
       service {

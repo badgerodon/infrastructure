@@ -13,9 +13,9 @@ cat <<EOF > /etc/systemd/system/consul.service
 [Unit]
 Description=consul
 [Service]
-ExecStart=/usr/bin/consul agent -server \
+ExecStart=/usr/bin/consul agent \
   -data-dir="/tmp/consul" \
-  -bootstrap-expect 3 \
+  -bind="$(ip -o -4 addr show | grep -v docker | grep global | awk -F '[ /]+' '{print $4}')" \
   -retry-join-gce-tag-value consul
 Restart=always
 [Install]
@@ -26,3 +26,7 @@ echo "[install] starting consul"
 systemctl daemon-reload
 systemctl enable consul
 systemctl start consul
+
+cat <<EOF > /etc/dhcp/dhclient.conf
+prepend domain-name-servers 127.0.0.1;
+EOF

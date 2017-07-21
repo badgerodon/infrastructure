@@ -16,9 +16,9 @@ resource "google_compute_instance_template" "consul" {
 set -x
 set -euo pipefail
 IFS=$'\n\t'
-${file("../scripts/install-base.bash")}
-${file("../scripts/install-consul-server.bash")}
-${file("../scripts/install-nomad-server.bash")}
+${file("../machines/scripts/install-base.bash")}
+${file("../machines/scripts/install-consul-server.bash")}
+${file("../machines/scripts/install-nomad-server.bash")}
   EOT
 
   lifecycle {
@@ -64,9 +64,9 @@ resource "google_compute_instance_template" "worker" {
 set -x
 set -euo pipefail
 IFS=$'\n\t'
-${file("../scripts/install-base.bash")}
-${file("../scripts/install-consul-client.bash")}
-${file("../scripts/install-nomad-client.bash")}
+${file("../machines/scripts/install-base.bash")}
+${file("../machines/scripts/install-consul-client.bash")}
+${file("../machines/scripts/install-nomad-client.bash")}
   EOT
 
   lifecycle {
@@ -85,7 +85,10 @@ ${file("../scripts/install-nomad-client.bash")}
   }
 
   service_account {
-    scopes = ["https://www.googleapis.com/auth/compute.readonly"]
+    scopes = [
+      "https://www.googleapis.com/auth/compute.readonly",
+      "https://www.googleapis.com/auth/devstorage.read_write",
+    ]
   }
 }
 
