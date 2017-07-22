@@ -1,1 +1,4 @@
 *.tfstate
+apps/dist/
+apps/tmp/
+.tup/

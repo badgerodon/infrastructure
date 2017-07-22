@@ -1,0 +1,7 @@
+
+# CADDY
+
+: |> echo "ARCH=arm64 CADDY_VERSION=0.10.4" > %o |> tmp/caddy/caddy_0.10.4_linux_arm64.vars
+: |> echo "ARCH=amd64 CADDY_VERSION=0.10.4" > %o |> tmp/caddy/caddy_0.10.4_linux_amd64.vars
+: foreach tmp/caddy/*.vars |> bash -f caddy/download.sh %f %o |> tmp/caddy/%B.tar.gz
+: foreach tmp/caddy/*.tar.gz |> bash -f caddy/repackage.sh %f %o |> dist/%B.xz
