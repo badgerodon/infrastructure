@@ -2,6 +2,7 @@
 set -exuo pipefail
 IFS=$'\n\t'
 
+
 if [ -z "$NOMAD_VERSION" ] ; then
   echo "CONSUL_VERSION is required"
   exit 1
@@ -11,6 +12,8 @@ if [ -z "$ARCH" ] ; then
   echo "ARCH is required"
   exit 1
 fi
+
+PRIVATE_IP="$(ip -o -4 addr show | grep -v docker | grep global | awk -F '[ /]+' '{print $4}')"
 
 echo "[install] installing nomad"
 cd /tmp || exit
@@ -23,8 +26,15 @@ mkdir -p /etc/nomad
 mkdir -p /tmp/nomad-data
 cat <<EOF > /etc/nomad/server.hcl
 data_dir  = "/tmp/nomad-data"
+
+advertise {
+  http = "${PRIVATE_IP}"
+  rpc  = "${PRIVATE_IP}"
+  serf = "${PRIVATE_IP}"
+}
+
 client {
-  enabled = true
+  enabled          = true
 }
 EOF
 

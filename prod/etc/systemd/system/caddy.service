@@ -1,0 +1,8 @@
+[Unit]
+Description=caddy
+[Service]
+ExecStart=/opt/caddy/caddy -conf=/etc/Caddyfile
+Restart=always
+WorkingDirectory=/opt/caddy
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,8 @@
+[Unit]
+Description=badgerodon-www
+[Service]
+ExecStart=/opt/badgerodon-www/badgerodon-www
+Restart=always
+WorkingDirectory=/opt/badgerodon-www
+[Install]
+WantedBy=multi-user.target

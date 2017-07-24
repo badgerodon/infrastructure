@@ -1,0 +1,4 @@
+*.badgerodon.com:80 {
+    gzip
+    log stdout
+}

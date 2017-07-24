@@ -17,6 +17,8 @@ if [ -z "$ARCH" ] ; then
   exit 1
 fi
 
+PRIVATE_IP="$(ip -o -4 addr show | grep -v docker | grep global | awk -F '[ /]+' '{print $4}')"
+
 echo "[install] installing consul"
 cd /tmp || exit
 curl -O -L "https://releases.hashicorp.com/consul/$CONSUL_VERSION/consul_${CONSUL_VERSION}_linux_${ARCH}.zip"
@@ -30,8 +32,8 @@ Description=consul
 [Service]
 ExecStart=/usr/bin/consul agent \
   -data-dir="/tmp/consul-data" \
-  -bind="$(ip -o -4 addr show | grep -v docker | grep global | awk -F '[ /]+' '{print $4}')" \
-  -retry-join="$CONSUL_IPS"
+  -bind=${PRIVATE_IP} \
+  $(echo "$CONSUL_IPS" | tr ',' '\n' | xargs -I{} echo '-retry-join={}' | xargs echo)
 Restart=always
 [Install]
 WantedBy=multi-user.target

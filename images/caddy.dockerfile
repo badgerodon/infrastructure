@@ -1,6 +1,8 @@
-FROM alpine:3.6
+ARG ARCH
+FROM base-${ARCH}:latest
 
-RUN apk add --no-cache openssh-client tar curl
+ARG ARCH
+WORKDIR /tmp
 RUN curl \
     --silent \
     --show-error \
@@ -8,13 +10,6 @@ RUN curl \
     --location \
     --header "Accept: application/tar+gzip, application/x-gzip, application/octet-stream" \
     -o - \
-    "https://caddyserver.com/download/linux/amd64" \
-    | tar --no-same-owner -C /usr/bin/ -xz caddy \
-    && chmod 0755 /usr/bin/caddy \
-    && /usr/bin/caddy -version
-
-EXPOSE 80 443 2015
-VOLUME /root/.caddy
-WORKDIR /srv
-ENTRYPOINT ["/usr/bin/caddy"]
-CMD ["--conf", "/etc/Caddyfile", "--log", "stdout"]
+    https://github.com/mholt/caddy/releases/download/v0.10.4/caddy_v0.10.4_linux_$ARCH.tar.gz \
+    | tar -xz caddy
+RUN tar -cJf /tmp/caddy.tar.xz caddy
