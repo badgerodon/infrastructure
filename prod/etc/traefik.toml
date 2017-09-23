@@ -1,0 +1,39 @@
+defaultEntryPoints = ["http", "https"]
+
+[entryPoints]
+    [entryPoints.http]
+    address = ":80"
+    compress = true
+        [entryPoints.http.redirect]
+        entryPoint = "https"
+
+    [entryPoints.https]
+    address = ":443"
+    compress = true
+        [entryPoints.https.tls]
+            [acme]
+            email = "caleb@badgerodon.com"
+            storage = "/tmp/acme.json"
+            #storage = "/tmp/acme-staging.json"
+            #caServer = "https://acme-staging.api.letsencrypt.org/directory"
+            entryPoint = "https"
+
+            [[acme.domains]]
+            main = "badgerodon.com"
+            sans = ["www.badgerodon.com"]
+
+[file]
+
+# rules
+[backends]
+  [backends.badgerodon_www]
+    [backends.badgerodon_www.servers.server1]
+    url = "http://127.0.0.1:9000"
+
+[frontends]
+  [frontends.badgerodon_www]
+  backend = "badgerodon_www"
+    [frontends.badgerodon_www.routes.test_1]
+    rule = "Host:badgerodon.com,www.badgerodon.com"
+
+[accessLog]

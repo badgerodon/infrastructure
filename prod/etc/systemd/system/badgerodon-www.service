@@ -1,8 +1,11 @@
 [Unit]
 Description=badgerodon-www
+
 [Service]
+Environment="PORT=9000"
 ExecStart=/opt/badgerodon-www/badgerodon-www
 Restart=always
 WorkingDirectory=/opt/badgerodon-www
+
 [Install]
 WantedBy=multi-user.target

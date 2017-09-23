@@ -11,7 +11,7 @@ if [ -z "$ARCH" ] ; then
     exit 1
 fi
 
-ARTIFACT="/opt/artifacts/${APP}-${ARCH}.tar.xz"
+ARTIFACT="/opt/artifacts/${APP}-${ARCH}.tar.gz"
 VERSION="$(shasum "${ARTIFACT}" | cut -d ' ' -f 1)"
 
 DESTINATION="/opt/releases/${APP}/${VERSION}"
@@ -20,7 +20,7 @@ if [ ! -d "${DESTINATION}" ] ; then
     systemctl stop "${APP}" || true
 
     echo "[INSTALL] extracting ${ARTIFACT} to ${DESTINATION}}"
-    (mkdir -p "${DESTINATION}" && cd "${DESTINATION}" && tar -xJf "${ARTIFACT}")
+    (mkdir -p "${DESTINATION}" && cd "${DESTINATION}" && tar -xzf "${ARTIFACT}")
 
     echo "[INSTALL] updating symlink for ${APP}"
     ln -sfn "${DESTINATION}" "/opt/${APP}"

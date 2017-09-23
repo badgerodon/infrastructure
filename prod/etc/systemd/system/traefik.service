@@ -1,0 +1,10 @@
+[Unit]
+Description=traefik
+
+[Service]
+ExecStart=/opt/traefik/traefik -c /etc/traefik.toml
+Restart=always
+WorkingDirectory=/opt/traefik
+
+[Install]
+WantedBy=multi-user.target

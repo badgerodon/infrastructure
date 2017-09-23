@@ -12,7 +12,7 @@ ssh root@m1.badgerodon.com "mkdir -p /opt/artifacts"
 rsync \
     --archive \
     --progress \
-    --include '*arm64*' \
+    --include '*amd64*' \
     --checksum \
     --delete \
     "$HOME/badgerodon/artifacts/" \
@@ -39,6 +39,7 @@ rsync \
     --checksum \
     ./scripts/ \
     root@m1.badgerodon.com:/tmp
-ssh root@m1.badgerodon.com "chmod +x /tmp/install-app.bash && env APP=caddy ARCH=arm64 /tmp/install-app.bash"
+ssh root@m1.badgerodon.com "chmod +x /tmp/install-app.bash && env APP=traefik ARCH=amd64 /tmp/install-app.bash"
+ssh root@m1.badgerodon.com "chmod +x /tmp/install-app.bash && env APP=badgerodon-www ARCH=amd64 /tmp/install-app.bash"
 echo -e "$COL_RESET"
 
