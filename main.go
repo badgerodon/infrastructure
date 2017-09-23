@@ -22,7 +22,7 @@ type application struct {
 
 func (app *application) artifactPath(arch string) string {
 	return filepath.Join(artifactDir(),
-		fmt.Sprintf("%s_%s_linux_%s.tar.xz", app.name, app.version, arch),
+		fmt.Sprintf("%s_%s_linux_%s.tar.gz", app.name, app.version, arch),
 	)
 }
 
@@ -30,6 +30,7 @@ type server struct {
 	name         string
 	arch         string
 	applications []string
+	user         string
 }
 
 var (
@@ -43,12 +44,20 @@ var (
 				newCopyBuilder(goProjectPath("badgerodon", "www"), "tpl"),
 			},
 		},
+		"traefik": {
+			name:    "traefik",
+			version: "1.3.8",
+			builders: []builder{
+				newTraefikBuilder(),
+			},
+		},
 	}
 	servers = []*server{
 		{
 			name:         "m1.badgerodon.com",
 			arch:         "amd64",
-			applications: []string{"badgerodon-www"},
+			applications: []string{"traefik", "badgerodon-www"},
+			user:         "root",
 		},
 	}
 )
@@ -65,7 +74,7 @@ func main() {
 	var err error
 	switch flag.Arg(0) {
 	case "build":
-		err = build()
+		err = build(flag.Arg(1))
 	case "deploy":
 		err = deploy()
 	default:

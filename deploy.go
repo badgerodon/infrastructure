@@ -20,7 +20,7 @@ func deploy() error {
 			"--checksum",
 			"--delete",
 			artifactDir()+"/",
-			server.name+":/opt/artifacts/",
+			server.user+"@"+server.name+":/opt/artifacts/",
 		)
 		if err != nil {
 			return errors.Wrapf(err, "failed to upload artifacts server=%s", server.name)
@@ -34,7 +34,7 @@ func deploy() error {
 			"--progress",
 			"--checksum",
 			etcDir+"/",
-			server.name+":/etc/",
+			server.user+"@"+server.name+":/etc/",
 		)
 		if err != nil {
 			return errors.Wrapf(err, "failed to upload config server=%s", server)
@@ -48,7 +48,7 @@ func deploy() error {
 			"--progress",
 			"--checksum",
 			scriptDir+"/",
-			server.name+":/tmp/",
+			server.user+"@"+server.name+":/tmp/",
 		)
 		if err != nil {
 			return errors.Wrapf(err, "failed to upload scripts server=%s", server)
@@ -60,7 +60,7 @@ func deploy() error {
 			log.Printf("installing server=%s arch=%s app=%s\n",
 				server.name, server.arch, app.name)
 			err = runcmd("ssh",
-				server.name,
+				server.user+"@"+server.name,
 				"chmod +x /tmp/install-app.bash && env "+
 					"APP="+app.name+" "+
 					"VERSION="+app.version+" "+

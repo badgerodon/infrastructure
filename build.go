@@ -10,9 +10,13 @@ import (
 	"github.com/pkg/errors"
 )
 
-func build() error {
+func build(name string) error {
 	for _, arch := range []string{"amd64", "arm64"} {
 		for _, app := range applications {
+			if name != "" && app.name != name {
+				continue
+			}
+
 			if _, err := os.Stat(app.artifactPath(arch)); err == nil {
 				log.Printf("skipping because artifact already exists app=%s arch=%s artifact=%s\n",
 					app.name, arch, app.artifactPath(arch))
@@ -89,9 +93,24 @@ type artifactBuilder struct{}
 
 func (b *artifactBuilder) build(app *application, arch, dst string) error {
 	return runcmd("tar",
-		"-cJ",
+		"-cz",
 		"-f", app.artifactPath(arch),
 		"-C", dst,
 		".",
+	)
+}
+
+type traefikBuilder struct {
+}
+
+func newTraefikBuilder() *traefikBuilder {
+	return new(traefikBuilder)
+}
+
+func (b *traefikBuilder) build(app *application, arch, dst string) error {
+	return runcmd("curl",
+		"-o", filepath.Join(dst, "traefik"),
+		"-L",
+		"https://github.com/containous/traefik/releases/download/v"+app.version+"/traefik_linux-"+arch,
 	)
 }

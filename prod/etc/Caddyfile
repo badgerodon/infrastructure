@@ -1,5 +1,0 @@
-www.badgerodon.com {
-    gzip
-    log stdout
-    proxy / 127.0.0.1:9000
-}

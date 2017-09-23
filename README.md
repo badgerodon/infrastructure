@@ -1,21 +1,22 @@
 # Infrastructure
 
-## Helpers
+This repository houses infrastructure config and release data for badgerodon.com and other apps.
 
-### caddy
+## Commands
 
-Build:
+Install the app:
 
-    docker build \
-        -t gcr.io/badgerodon-prod/caddy:1.0 \
-        -f images/caddy.dockerfile \
-        .
+    go install
 
-Run:
+Build the base images:
 
-    docker run \
-        -i -t \
-        -v $(pwd)/config/Caddyfile:/etc/Caddyfile \
-        -p 2015:2015 \
-        gcr.io/badgerodon-prod/caddy:1.0
+    (cd images && ./build.sh)
+
+Build all the apps:
+
+    infrastructure build
+
+Deploy them:
+
+    infrastructure deploy
 

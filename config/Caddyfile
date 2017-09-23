@@ -1,8 +1,0 @@
-*.badgerodon.com:2015 {
-    log stdout
-    proxy / badgerodon-www.service.consul:9000
-}
-
-*.doxsey.net:2015 {
-    proxy / doxsey-www.service.consul:9001
-}
